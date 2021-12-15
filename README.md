@@ -1,0 +1,2 @@
+# NQueenProblem
+ Object Oriented Assignment
