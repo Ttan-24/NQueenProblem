@@ -13,7 +13,7 @@ namespace GenericStackLibrary
 
 		public void push(T value)
 		{
-			if (countIndex > 49)
+			if (countIndex > 99)
 			{
 				Console.WriteLine("The array is out of bounds");
 			}

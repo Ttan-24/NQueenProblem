@@ -22,15 +22,14 @@ namespace NQueenProblem
 
     class Program
     {
-        int x_position;
-        int y_position;
+        static int gridSize = 4;    // 16 cannot happen due to stack overflow. my recursion is too deep to the point it dies :(
         static GenericStackClass<Queen> queenStack = new GenericStackClass<Queen>();
 
         static void displayGrid(int x, int y)
         {
             for (int i = 0; i < y; i++)
             {
-                
+
                 for (int j = 0; j < x; j++)
                 {
                     bool queenIsHere = false;
@@ -65,7 +64,7 @@ namespace NQueenProblem
             queenStack.push(Q);
 
             // Horizontal
-            for (int i = 0; i <= 3; i++)
+            for (int i = 0; i < gridSize; i++)
             {
                 Position p = new Position();
                 p.x = i;
@@ -74,7 +73,7 @@ namespace NQueenProblem
             }
 
             // Vertical
-            for (int i = 0; i <= 3; i++)
+            for (int i = 0; i < gridSize; i++)
             {
                 Position p = new Position();
                 p.y = i;
@@ -96,7 +95,7 @@ namespace NQueenProblem
             }
             x1 = Q.x;   //reset the position
             y1 = Q.y;
-            while (x1 < 4 && y1 < 4)
+            while (x1 < gridSize && y1 < gridSize)
             {
                 Position p = new Position();
                 p.x = x1;
@@ -107,7 +106,7 @@ namespace NQueenProblem
             }
             x1 = Q.x;
             y1 = Q.y;
-            while (x1 > 0 && y1 < 4)
+            while (x1 > 0 && y1 < gridSize)
             {
                 Position p = new Position();
                 p.x = x1;
@@ -118,7 +117,7 @@ namespace NQueenProblem
             }
             x1 = Q.x;
             y1 = Q.y;
-            while (x1 < 4 && y1 > 0)
+            while (x1 < gridSize && y1 > 0)
             {
                 Position p = new Position();
                 p.x = x1;
@@ -130,7 +129,7 @@ namespace NQueenProblem
         }
 
         //tells you if it is an okay place or not
-        static bool canPutQueen (int x, int y)
+        static bool canPutQueen(int x, int y)
         {
             // check all the positions
             for (int i = 0; i < queenStack.size(); i++)
@@ -138,11 +137,11 @@ namespace NQueenProblem
                 Queen Q = queenStack.get(i);
                 for (int j = 0; j < Q.attackPositionStack.size(); j++)
                 {
-                    Position p = Q.attackPositionStack.get(j); 
+                    Position p = Q.attackPositionStack.get(j);
                     if (x == p.x && y == p.y)
                     {
                         return false;
-                    } 
+                    }
                 }
             }
             return true;
@@ -162,23 +161,40 @@ namespace NQueenProblem
         //- IF you find no good positions, you backtrack Y and remove the last queen from the stack
         //- If Y gets backtracked to -1, then the program fails
 
+        static void PlaceOrBacktrack(int xstart, int y)
+        {
+            if (y == gridSize)
+            {
+                return;
+            }
+
+            // Check to place queen
+            for (int x = xstart; x < gridSize; x++) //x
+            {
+                if (canPutQueen(x, y))
+                {
+                    addQueen(x, y);
+                    //displayGrid(gridSize, gridSize);
+                    PlaceOrBacktrack(0, y + 1); // Progress
+                    return;
+                }
+            }
+
+            // Backtrack if could not place queen
+            int previousx = queenStack.top().x; // Remember last queen's X
+            queenStack.pop(); // Remove last queen
+            PlaceOrBacktrack(previousx + 1, y - 1); // Try place new queen in previous place
+            //displayGrid(gridSize, gridSize);
+
+            // Return
+            return;
+        }
+
 
         static void Main(string[] args)
         {
-            addQueen(2, 0);
-            for (int i = 0; i < 4; i++) //y
-            {
-                for (int j = 0; j < 4; j++) //x
-                {
-                    if (canPutQueen(j, i))
-                    {
-                        addQueen(j, i);
-                        displayGrid(4, 4);
-                    }
-                }
-
-            }
-            displayGrid(4, 4);
+            PlaceOrBacktrack(0, 0);
+            displayGrid(gridSize, gridSize);
             Console.ReadLine();
         }
     }
