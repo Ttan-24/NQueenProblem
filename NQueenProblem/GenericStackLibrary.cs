@@ -8,12 +8,26 @@ namespace GenericStackLibrary
 {
 	class GenericStackClass<T>
 	{
-		public T[] arr = new T[100];
+		protected const int maxSize = 100;
+		public T[] arr = new T[maxSize];
 		public int countIndex = 0;
 
+		public GenericStackClass()
+		{
+		}
+		public GenericStackClass(GenericStackClass<T> toCloneFrom)
+        {
+			for (int i = 0; i < maxSize; i++)
+            {
+				if (toCloneFrom.get(i) != null)
+				{
+					push(toCloneFrom.get(i));
+				}
+            }
+        }
 		public void push(T value)
 		{
-			if (countIndex > 99)
+			if (countIndex > maxSize-1)
 			{
 				Console.WriteLine("The array is out of bounds");
 			}

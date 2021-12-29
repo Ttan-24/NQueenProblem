@@ -7,11 +7,9 @@ using GenericStackLibrary;
 
 namespace NQueenProblem
 {
-    class Queen
+    interface IDisplayable
     {
-        public int x;
-        public int y;
-        public GenericStackClass<Position> attackPositionStack = new GenericStackClass<Position>();
+        void Display();
     }
 
     class Position
@@ -20,22 +18,118 @@ namespace NQueenProblem
         public int y;
     }
 
-    class Program
+    class Queen : Position
     {
-        static int gridSize = 4;    // 16 cannot happen due to stack overflow. my recursion is too deep to the point it dies :(
-        static GenericStackClass<Queen> queenStack = new GenericStackClass<Queen>();
-
-        static void displayGrid(int x, int y)
+        public GenericStackClass<Position> attackPositionStack = new GenericStackClass<Position>();
+        public Queen(int paramX, int paramY, int gridSize)
         {
-            for (int i = 0; i < y; i++)
+            x = paramX;
+            y = paramY;
+
+            SetAttackPositions(gridSize);
+        }
+
+        public void SetAttackPositions(int gridSize)
+        {
+            // Horizontal
+            for (int i = 0; i < gridSize; i++)
+            {
+                Position p = new Position();
+                p.x = i;
+                p.y = y;
+                attackPositionStack.push(p);
+            }
+
+            // Vertical
+            for (int i = 0; i < gridSize; i++)
+            {
+                Position p = new Position();
+                p.y = i;
+                p.x = x;
+                attackPositionStack.push(p);
+            }
+
+            // Diagonal
+            // Up left
+            int x1 = x;
+            int y1 = y;
+            while (x1 >= 0 && y1 >= 0)
+            {
+                Position p = new Position();
+                p.x = x1;
+                p.y = y1;
+                x1--;
+                y1--;
+                attackPositionStack.push(p);
+            }
+            // Down right
+            x1 = x;   //reset the position
+            y1 = y;
+            while (x1 < gridSize && y1 < gridSize)
+            {
+                Position p = new Position();
+                p.x = x1;
+                p.y = y1;
+                x1++;
+                y1++;
+                attackPositionStack.push(p);
+            }
+            // Down left
+            x1 = x;
+            y1 = y;
+            while (x1 >= 0 && y1 < gridSize)
+            {
+                Position p = new Position();
+                p.x = x1;
+                p.y = y1;
+                x1--;
+                y1++;
+                attackPositionStack.push(p);
+            }
+            // Up right
+            x1 = x;
+            y1 = y;
+            while (x1 < gridSize && y1 >= 0)
+            {
+                Position p = new Position();
+                p.x = x1;
+                p.y = y1;
+                x1++;
+                y1--;
+                attackPositionStack.push(p);
+            }
+        }
+    }
+
+    class QueenStack : GenericStackClass<Queen>, IDisplayable
+    {
+        public int gridSize;
+        public QueenStack() { }
+        public QueenStack(QueenStack stackToCopyFrom)
+        {
+            // Copy stack
+            for (int i = 0; i < maxSize; i++)
+            {
+                if (stackToCopyFrom.get(i) != null)
+                {
+                    push(stackToCopyFrom.get(i));
+                }
+            }
+
+            // Copy size
+            gridSize = stackToCopyFrom.gridSize;
+        }
+        public void Display()
+        {
+            for (int i = 0; i < gridSize; i++)
             {
 
-                for (int j = 0; j < x; j++)
+                for (int j = 0; j < gridSize; j++)
                 {
                     bool queenIsHere = false;
-                    for (int k = 0; k < queenStack.size(); k++)
+                    for (int k = 0; k < size(); k++)
                     {
-                        Queen q = queenStack.get(k);
+                        Queen q = get(k);
                         if (q.x == j && q.y == i)
                         {
                             queenIsHere = true;
@@ -44,88 +138,45 @@ namespace NQueenProblem
 
                     if (queenIsHere)
                     {
-                        Console.Write(1);
+                        Console.Write("Q ");
                     }
                     else
                     {
-                        Console.Write(0);
+                        Console.Write("- ");
                     }
                 }
                 Console.WriteLine();
             }
             Console.WriteLine();
         }
+    }
+
+    class SolutionStack : GenericStackClass<QueenStack>, IDisplayable
+    {
+        public void Display()
+        {
+            Console.WriteLine("Number of solutions: " + size());
+            for (int i = 0; i < size(); i++)
+            {
+                Console.WriteLine("Solution {0}: ", i + 1);
+                QueenStack solution = get(i);
+                solution.Display();
+            }
+        }
+    }
+
+    class Program
+    {
+        static int gridSize;    // 16 cannot happen due to stack overflow. my recursion is too deep to the point it dies :(
+        static QueenStack queenStack = new QueenStack();
+        static SolutionStack solutionStack = new SolutionStack();
+        static int solutionCount = 0;
+        static int validityCheckCount = 0;
 
         static void addQueen(int x, int y)
         {
-            Queen Q = new Queen();
-            Q.x = x;
-            Q.y = y;
+            Queen Q = new Queen(x, y, gridSize);
             queenStack.push(Q);
-
-            // Horizontal
-            for (int i = 0; i < gridSize; i++)
-            {
-                Position p = new Position();
-                p.x = i;
-                p.y = Q.y;
-                Q.attackPositionStack.push(p);
-            }
-
-            // Vertical
-            for (int i = 0; i < gridSize; i++)
-            {
-                Position p = new Position();
-                p.y = i;
-                p.x = Q.x;
-                Q.attackPositionStack.push(p);
-            }
-
-            // Diagonal
-            int x1 = Q.x;
-            int y1 = Q.y;
-            while (x1 > 0 && y1 > 0)
-            {
-                Position p = new Position();
-                p.x = x1;
-                p.y = y1;
-                x1--;
-                y1--;
-                Q.attackPositionStack.push(p);
-            }
-            x1 = Q.x;   //reset the position
-            y1 = Q.y;
-            while (x1 < gridSize && y1 < gridSize)
-            {
-                Position p = new Position();
-                p.x = x1;
-                p.y = y1;
-                x1++;
-                y1++;
-                Q.attackPositionStack.push(p);
-            }
-            x1 = Q.x;
-            y1 = Q.y;
-            while (x1 > 0 && y1 < gridSize)
-            {
-                Position p = new Position();
-                p.x = x1;
-                p.y = y1;
-                x1--;
-                y1++;
-                Q.attackPositionStack.push(p);
-            }
-            x1 = Q.x;
-            y1 = Q.y;
-            while (x1 < gridSize && y1 > 0)
-            {
-                Position p = new Position();
-                p.x = x1;
-                p.y = y1;
-                x1++;
-                y1--;
-                Q.attackPositionStack.push(p);
-            }
         }
 
         //tells you if it is an okay place or not
@@ -161,21 +212,45 @@ namespace NQueenProblem
         //- IF you find no good positions, you backtrack Y and remove the last queen from the stack
         //- If Y gets backtracked to -1, then the program fails
 
-        static void PlaceOrBacktrack(int xstart, int y)
+        static void PlaceOrBacktrack(int xstart, int y, bool showValidityCheck)
         {
-            if (y == gridSize)
+            // Exit when at very end
+            if (xstart == gridSize && y == 0)
             {
+                return;
+            }
+
+            // Add solution if at end of rows
+            if (y == gridSize) // Reached end
+            {
+                if (showValidityCheck)
+                {
+                    Console.WriteLine("Solution found!");
+                    Console.WriteLine();
+                }
+                solutionCount++;
+                solutionStack.push(new QueenStack(queenStack)); // Add this solution // copy constructor
+
+                // Backtrack again to find more solutions
+                int previousX = queenStack.top().x;
+                queenStack.pop();
+                PlaceOrBacktrack(previousX + 1, y - 1, showValidityCheck);
                 return;
             }
 
             // Check to place queen
             for (int x = xstart; x < gridSize; x++) //x
             {
+                validityCheckCount++;
                 if (canPutQueen(x, y))
                 {
                     addQueen(x, y);
-                    //displayGrid(gridSize, gridSize);
-                    PlaceOrBacktrack(0, y + 1); // Progress
+                    if (showValidityCheck)
+                    {
+                        queenStack.Display();
+                    }
+                    
+                    PlaceOrBacktrack(0, y + 1, showValidityCheck); // Progress
                     return;
                 }
             }
@@ -183,7 +258,7 @@ namespace NQueenProblem
             // Backtrack if could not place queen
             int previousx = queenStack.top().x; // Remember last queen's X
             queenStack.pop(); // Remove last queen
-            PlaceOrBacktrack(previousx + 1, y - 1); // Try place new queen in previous place
+            PlaceOrBacktrack(previousx + 1, y - 1, showValidityCheck); // Try place new queen in previous place
             //displayGrid(gridSize, gridSize);
 
             // Return
@@ -193,8 +268,47 @@ namespace NQueenProblem
 
         static void Main(string[] args)
         {
-            PlaceOrBacktrack(0, 0);
-            displayGrid(gridSize, gridSize);
+            bool correctInput = false;
+            while (correctInput == false)
+            {
+                try
+                {
+                    // Get grid size
+                    Console.WriteLine("Input size: ");
+                    gridSize = Int32.Parse(Console.ReadLine());
+                    queenStack.gridSize = gridSize;
+                    if (gridSize > 0)
+                    {
+                        correctInput = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Choose a non-negative number");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Incorrect format. Try again");
+                }
+            }
+
+            // Start recursive system to find solutions
+            PlaceOrBacktrack(0, 0, false);
+
+            // Display all solutions
+            solutionStack.Display();
+
+            // Prompt user for validity checks
+            Console.WriteLine("Show validity checks? (y/n): ");
+            string response = Console.ReadLine();
+            if (response == "y")
+            {
+                Console.WriteLine("Validity Check Count: {0}", validityCheckCount);
+                PlaceOrBacktrack(0, 0, true);
+            }
+            
+
+            // Pause so user can read
             Console.ReadLine();
         }
     }
