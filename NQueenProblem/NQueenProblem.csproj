@@ -44,8 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenericStackLibrary.cs" />
+    <Compile Include="IDisplayable.cs" />
+    <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queen.cs" />
+    <Compile Include="QueenStack.cs" />
+    <Compile Include="SolutionFinder.cs" />
+    <Compile Include="SolutionStack.cs" />
+    <Compile Include="StringStack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

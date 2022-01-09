@@ -6,15 +6,23 @@ using System.Threading.Tasks;
 
 namespace GenericStackLibrary
 {
-	class GenericStackClass<T>
+    class GenericStackClass<T> : IDisplayable
 	{
-		protected const int maxSize = 100;
+		/* Class Description
+		 * This class is a Last-In/First-Out (LIFO) stack
+		 * implemented with a generic type (T)
+		 */
+
+		///// Member Data /////
+		protected const int maxSize = 1000;
 		public T[] arr = new T[maxSize];
 		public int countIndex = 0;
 
-		public GenericStackClass()
+        // default constructor 
+        public GenericStackClass()
 		{
 		}
+		// copy constructor used to store solutions in the SolutionFinder
 		public GenericStackClass(GenericStackClass<T> toCloneFrom)
         {
 			for (int i = 0; i < maxSize; i++)
@@ -25,11 +33,14 @@ namespace GenericStackLibrary
 				}
             }
         }
+
+		///// Member Functions /////
+		// Push new values to stack
 		public void push(T value)
 		{
 			if (countIndex > maxSize-1)
 			{
-				Console.WriteLine("The array is out of bounds");
+				//throw new IndexOutOfRangeException();
 			}
 			else
 			{
@@ -37,10 +48,12 @@ namespace GenericStackLibrary
 				countIndex++;
 			}
 		}
+		// Get the top variable in the stack (the last to be pushed and first to be popped)
 		public T top()
 		{
 			return arr[countIndex - 1]; // since array start from zero index 
 		}
+		// Pop the top member variable from the stack
 		public void pop()
 		{
 			if (isEmpty())
@@ -52,10 +65,12 @@ namespace GenericStackLibrary
 				countIndex--;
 			}
 		}
+		// Get the size of the stack
 		public int size()
 		{
 			return countIndex;
 		}
+		// Check if there is no data in the stack
 		public bool isEmpty()
 		{
 			if (countIndex == 0)
@@ -67,7 +82,8 @@ namespace GenericStackLibrary
 				return false;
 			}
 		}
-		public string toString()
+		// Convert the stack to a string. This function can be overridden for display purposes
+		public virtual string toString()
 		{
 			string emptyString = "";
 			for (int i = 0; i < countIndex; i++)
@@ -76,6 +92,7 @@ namespace GenericStackLibrary
 			}
 			return emptyString;
 		}
+		// Get the stack variable at a specific index
 		public T get(int i)
 		{
 			return arr[i];
