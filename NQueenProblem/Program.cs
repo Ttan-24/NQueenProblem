@@ -46,7 +46,7 @@ namespace NQueenProblem
             displayStack.push(new StringStack("Showing Solutions..."));
 
             // Start recursive system to find solutions
-            SolutionFinder.PlaceOrBacktrack(queenStack, 0, 0, false, displayStack);
+            SolutionFinder.placeOrBacktrack(queenStack, 0, 0, false, displayStack);
 
             // Add solution stack to displayable stack
             displayStack.push(SolutionFinder.solutionStack);
@@ -59,7 +59,7 @@ namespace NQueenProblem
             {
                 Console.WriteLine("Validity Check Count: {0}", SolutionFinder.validityCheckCount);
                 displayStack.push(new StringStack("Showing validity check..."));
-                SolutionFinder.PlaceOrBacktrack(queenStack, 0, 0, true, displayStack);
+                SolutionFinder.placeOrBacktrack(queenStack, 0, 0, true, displayStack);
             }
 
             // Print all displayables

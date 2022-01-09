@@ -10,10 +10,10 @@ namespace NQueenProblem
             x = paramX;
             y = paramY;
 
-            SetAttackPositions(gridSize);
+            setAttackPositions(gridSize);
         }
 
-        public void SetAttackPositions(int gridSize)
+        public void setAttackPositions(int gridSize)
         {
             // Horizontal
             for (int i = 0; i < gridSize; i++)

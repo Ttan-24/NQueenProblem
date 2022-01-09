@@ -22,7 +22,7 @@ namespace NQueenProblem
         public static int solutionCount;
         public static int validityCheckCount;
         public static SolutionStack solutionStack = new SolutionStack();
-        public static void PlaceOrBacktrack(QueenStack queenGrid, int xstart, int y, bool showValidityCheck, GenericStackClass<IDisplayable> displayStack)
+        public static void placeOrBacktrack(QueenStack queenGrid, int xstart, int y, bool showValidityCheck, GenericStackClass<IDisplayable> displayStack)
         {
             // Exit when at very end
             if (xstart == queenGrid.gridSize && y == 0)
@@ -43,7 +43,7 @@ namespace NQueenProblem
                 // Backtrack again to find more solutions
                 int previousX = queenGrid.top().x;
                 queenGrid.pop();
-                PlaceOrBacktrack(queenGrid, previousX + 1, y - 1, showValidityCheck, displayStack);
+                placeOrBacktrack(queenGrid, previousX + 1, y - 1, showValidityCheck, displayStack);
                 return;
             }
 
@@ -59,7 +59,7 @@ namespace NQueenProblem
                         displayStack.push(new QueenStack(queenGrid));
                     }
 
-                    PlaceOrBacktrack(queenGrid, 0, y + 1, showValidityCheck, displayStack); // Progress
+                    placeOrBacktrack(queenGrid, 0, y + 1, showValidityCheck, displayStack); // Progress
                     return;
                 }
             }
@@ -67,7 +67,7 @@ namespace NQueenProblem
             // Backtrack if could not place queen
             int previousx = queenGrid.top().x; // Remember last queen's X
             queenGrid.pop(); // Remove last queen
-            PlaceOrBacktrack(queenGrid, previousx + 1, y - 1, showValidityCheck, displayStack); // Try place new queen in previous place
+            placeOrBacktrack(queenGrid, previousx + 1, y - 1, showValidityCheck, displayStack); // Try place new queen in previous place
             //displayGrid(gridSize, gridSize);
 
             // Return
