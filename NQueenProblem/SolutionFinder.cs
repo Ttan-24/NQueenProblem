@@ -72,7 +72,6 @@ namespace NQueenProblem
             int previousx = queenGrid.top().x; // Remember last queen's X
             queenGrid.pop(); // Remove last queen
             placeOrBacktrack(queenGrid, previousx + 1, y - 1, showValidityCheck, displayStack); // Try place new queen in previous place
-            //displayGrid(gridSize, gridSize);
 
             // Return
             return;

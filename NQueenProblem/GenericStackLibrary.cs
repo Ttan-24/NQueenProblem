@@ -18,7 +18,7 @@ namespace GenericStackLibrary
 		/// </summary>
 
 		///// Member Data /////
-		protected const int maxSize = 1000;
+		protected const int maxSize = 10000;
 		public T[] arr = new T[maxSize];
 		public int countIndex = 0;
 
@@ -44,7 +44,7 @@ namespace GenericStackLibrary
 		{
 			if (countIndex > maxSize-1)
 			{
-				//throw new IndexOutOfRangeException();
+				throw new IndexOutOfRangeException("Index out of bounds! Stack is full");
 			}
 			else
 			{
