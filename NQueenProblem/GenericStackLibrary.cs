@@ -8,11 +8,6 @@ namespace GenericStackLibrary
 {
     class GenericStackClass<T> : IDisplayable
 	{
-		/* Class Description
-		 * This class is a Last-In/First-Out (LIFO) stack
-		 * implemented with a generic type (T)
-		 */
-
 		/// <summary>
 		/// This classs is a Last-In/First-Out (LIFO) stack
 		/// implemented with a generic type (T)
