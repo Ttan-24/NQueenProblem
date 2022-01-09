@@ -7,9 +7,15 @@ using System.Threading.Tasks;
 
 namespace NQueenProblem
 {
-    
     class Program
     {
+        /// <summary>
+        /// Main class primarily used for getting
+        /// user input to define constraints and
+        /// use static classes to form solutions
+        /// for the given data.
+        /// </summary>
+        
         static void Main(string[] args)
         {
             // Create initial queenstack

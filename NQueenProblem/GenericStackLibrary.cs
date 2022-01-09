@@ -13,6 +13,15 @@ namespace GenericStackLibrary
 		 * implemented with a generic type (T)
 		 */
 
+		/// <summary>
+		/// This classs is a Last-In/First-Out (LIFO) stack
+		/// implemented with a generic type (T)
+		/// 
+		/// It also implements the IDisplayable interface
+		/// which is used to store generic displayable
+		/// stacks.
+		/// </summary>
+
 		///// Member Data /////
 		protected const int maxSize = 1000;
 		public T[] arr = new T[maxSize];

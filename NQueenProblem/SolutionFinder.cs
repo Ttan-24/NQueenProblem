@@ -3,20 +3,24 @@ using System;
 
 namespace NQueenProblem
 {
-    //Data:
-    //- X position
-    //- Y position
-    //- List of queens(they all know their attack positions)
 
-    //Functions:
-    //- Add queen(adds to stack and sets their attack positions)
-    //- Check position(check if no one can attack it)
 
-    //Process:
-    //- Keep incrementing Y until you find a good position
-    //- IF you find a good position then you place a queen and increment X and reset Y
-    //- IF you find no good positions, you backtrack Y and remove the last queen from the stack
-    //- If Y gets backtracked to -1, then the program fails
+    /// <summary>
+    ///  This class is used to find solutions for a given grid of queens.
+    ///  
+    /// This data is provided in the placeOrBacktrack function, and recursively
+    /// processed using backtracking to find valid solutions for the problem
+    /// 
+    /// It is also given a reference to a stack of IDisplayable objects, which
+    /// can be populated with various IDisplayable types to be displayed
+    /// to the user once the recursive function is finished.
+    /// 
+    /// Process:
+    /// Keep incrementing X until a valid position is found
+    /// If a valid position is found, then place the queen and increment Y and reset X
+    /// If no good position is found, Y is backtracked and X is reset, and the last queen from the stack is removed
+    /// If Y is backtracked to -1, then the function fails and is returned 
+    /// </summary>
     class SolutionFinder
     {
         public static int solutionCount;

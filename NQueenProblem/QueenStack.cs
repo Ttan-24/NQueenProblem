@@ -4,8 +4,14 @@ namespace NQueenProblem
 {
     class QueenStack : GenericStackClass<Queen>
     {
+        /// Member Variables ///
         public int gridSize;
+
+
+        /// Constructors ///
+        // Default Constructor
         public QueenStack() { }
+        // Copy constructor - used for copying QueenStacks when used as saved valid solutions in SolutionFinder
         public QueenStack(QueenStack stackToCopyFrom)
         {
             // Copy stack
@@ -21,13 +27,16 @@ namespace NQueenProblem
             gridSize = stackToCopyFrom.gridSize;
         }
 
+
+        /// Member Functions ///
+        // Adds a queen to the stack (the constructor of which will create new attack positions)
         public void addQueen(int x, int y)
         {
             Queen Q = new Queen(x, y, gridSize);
             push(Q);
         }
 
-        //tells you if it is an okay place or not
+        // Returns if a queen can be placed at the designated coordinates when checked against the listed attack positions
         public bool canPutQueen(int x, int y)
         {
             // check all the positions
@@ -46,6 +55,7 @@ namespace NQueenProblem
             return true;
         }
 
+        // Display function to override the IDisplayable function inherited in GenericStackLibrary. Used to display as a solution
         public override string toString()
         {
             string str = "";

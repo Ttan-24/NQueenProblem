@@ -4,7 +4,11 @@ namespace NQueenProblem
 {
     class SolutionStack : GenericStackClass<QueenStack>
     {
-        // displaying all the solutions from the SolutionFinder 
+        /// <summary>
+        /// SolutionStack is used to contain multiple solutions (QueenStacks)
+        /// and display these as a generic IDisplayable in Program.cs
+        /// The toString() function is overridden here
+        /// </summary>
         public override string toString()
         {
             string str = "";
