@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GenericStackLibrary
 {
-    class GenericStackClass<T> : IDisplayable
+	class GenericStackClass<T> : IDisplayable
 	{
 		/// <summary>
 		/// This classs is a Last-In/First-Out (LIFO) stack
@@ -19,8 +15,8 @@ namespace GenericStackLibrary
 
 		///// Member Data /////
 		protected const int maxSize = 10000;
-		public T[] arr = new T[maxSize];
-		public int countIndex = 0;
+		private T[] arr = new T[maxSize];
+		private int countIndex = 0;
 
         // default constructor 
         public GenericStackClass()

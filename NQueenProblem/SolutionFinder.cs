@@ -21,28 +21,42 @@ namespace NQueenProblem
     /// If no good position is found, Y is backtracked and X is reset, and the last queen from the stack is removed
     /// If Y is backtracked to -1, then the function fails and is returned 
     /// </summary>
-    class SolutionFinder
+    static class SolutionFinder
     {
-        public static int solutionCount;
-        public static int validityCheckCount;
-        public static SolutionStack solutionStack = new SolutionStack();
+        private static int solutionCount;
+        private static int validityCheckCount;
+        private static SolutionStack solutionStack = new SolutionStack();
+
+        public static int getValidityCheckCount()
+        {
+            return validityCheckCount;
+        }
+
+        public static SolutionStack getSolutionStack()
+        {
+            return solutionStack;
+        }
+
         public static void placeOrBacktrack(QueenStack queenGrid, int xstart, int y, bool showValidityCheck, GenericStackClass<IDisplayable> displayStack)
         {
             // Exit when at very end
-            if (xstart == queenGrid.gridSize && y == 0)
+            if (xstart == queenGrid.getGridSize() && y == 0)
             {
                 return;
             }
 
             // Add solution if at end of rows
-            if (y == queenGrid.gridSize) // Reached end
+            if (y == queenGrid.getGridSize()) // Reached end
             {
                 if (showValidityCheck)
                 {
                     displayStack.push(new StringStack("Solution found!"));
                 }
-                solutionCount++;
-                solutionStack.push(new QueenStack(queenGrid)); // Add this solution // copy constructor
+                else
+                {
+                    solutionCount++;
+                    solutionStack.push(new QueenStack(queenGrid)); // Add this solution // copy constructor
+                }
 
                 // Backtrack again to find more solutions
                 int previousX = queenGrid.top().x;
@@ -52,7 +66,7 @@ namespace NQueenProblem
             }
 
             // Check to place queen
-            for (int x = xstart; x < queenGrid.gridSize; x++) //x
+            for (int x = xstart; x < queenGrid.getGridSize(); x++) //x
             {
                 validityCheckCount++;
                 if (queenGrid.canPutQueen(x, y))
@@ -75,6 +89,7 @@ namespace NQueenProblem
 
             // Return
             return;
+            
         }
     }
 }

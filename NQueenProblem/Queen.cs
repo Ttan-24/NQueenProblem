@@ -16,7 +16,7 @@ namespace NQueenProblem
         /// </summary>
         
         /// Member Variables ///
-        public GenericStackClass<Position> attackPositionStack = new GenericStackClass<Position>();
+        private GenericStackClass<Position> attackPositionStack = new GenericStackClass<Position>();
 
 
         /// Constructors ///
@@ -29,10 +29,14 @@ namespace NQueenProblem
             setAttackPositions(gridSize);
         }
 
+        public GenericStackClass<Position> getAttackPositions()
+        {
+            return attackPositionStack;
+        }
 
         /// Member Functions ///
         // Stores all relevant attack positions to be iterated through when checking future positions on a QueenStack
-        public void setAttackPositions(int gridSize)
+        private void setAttackPositions(int gridSize)
         {
             // Horizontal
             for (int i = 0; i < gridSize; i++)

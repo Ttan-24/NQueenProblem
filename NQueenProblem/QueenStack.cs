@@ -5,8 +5,17 @@ namespace NQueenProblem
     class QueenStack : GenericStackClass<Queen>
     {
         /// Member Variables ///
-        public int gridSize;
+        private int gridSize;
 
+        public void setGridSize(int _gridSize) 
+        {
+            gridSize = _gridSize;
+        }
+
+        public int getGridSize()
+        {
+            return gridSize;
+        }
 
         /// Constructors ///
         // Default Constructor
@@ -43,9 +52,9 @@ namespace NQueenProblem
             for (int i = 0; i < size(); i++)
             {
                 Queen Q = get(i);
-                for (int j = 0; j < Q.attackPositionStack.size(); j++)
+                for (int j = 0; j < Q.getAttackPositions().size(); j++)
                 {
-                    Position p = Q.attackPositionStack.get(j);
+                    Position p = Q.getAttackPositions().get(j);
                     if (x == p.x && y == p.y)
                     {
                         return false;

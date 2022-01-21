@@ -1,9 +1,5 @@
 ﻿using GenericStackLibrary;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NQueenProblem
 {
@@ -29,7 +25,7 @@ namespace NQueenProblem
                     // Get grid size
                     Console.WriteLine("Input size: ");
                     int gridSize = Int32.Parse(Console.ReadLine());
-                    queenStack.gridSize = gridSize;
+                    queenStack.setGridSize(gridSize);
                     if (gridSize > 0)
                     {
                         correctInput = true;
@@ -55,7 +51,7 @@ namespace NQueenProblem
             SolutionFinder.placeOrBacktrack(queenStack, 0, 0, false, displayStack);
 
             // Add solution stack to displayable stack
-            displayStack.push(SolutionFinder.solutionStack);
+            displayStack.push(SolutionFinder.getSolutionStack());
 
 
             // Prompt user for validity checks
@@ -63,7 +59,7 @@ namespace NQueenProblem
             string response = Console.ReadLine();
             if (response == "y")
             {
-                Console.WriteLine("Validity Check Count: {0}", SolutionFinder.validityCheckCount);
+                Console.WriteLine("Validity Check Count: {0}", SolutionFinder.getValidityCheckCount());
                 displayStack.push(new StringStack("Showing validity check..."));
                 SolutionFinder.placeOrBacktrack(queenStack, 0, 0, true, displayStack);
             }
